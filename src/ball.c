@@ -70,22 +70,47 @@ void Ball_onCollision(CollisionData const * collisionData) {
 
         LOG("|***********************************************\n\n\n");
 
+        // int intersectionWidth = intersection->max.x - intersection->min.x;
+        // int intersectionHeight = intersection->max.y - intersection->min.y;
+
+        // // ball->velocity.y *= -1;
+        // if (hittingActorAABB->min.x == intersection->min.x) {
+        //     ball->pos.x += intersectionWidth;
+        //     ball->velocity.x *= -1;
+        // } else if (hittingActorAABB->max.x == intersection->max.x) {
+        //     ball->pos.x -= intersectionWidth;
+        //     ball->velocity.x *= -1;
+        // } else if (hittingActorAABB->min.y <= intersection->min.y) {
+        //     ball->pos.y += intersectionHeight;
+        //     ball->velocity.y *= -1;
+        // } else if (hittingActorAABB->max.y >= intersection->max.y) {
+        //     ball->pos.y -= intersectionHeight;
+        //     ball->velocity.y *= -1;
+        // }
+
         int intersectionWidth = intersection->max.x - intersection->min.x;
         int intersectionHeight = intersection->max.y - intersection->min.y;
 
-        // ball->velocity.y *= -1;
-        if (hittingActorAABB->min.x == intersection->min.x) {
-            ball->pos.x += intersectionWidth;
-            ball->velocity.x *= -1;
-        } else if (hittingActorAABB->max.x == intersection->max.x) {
-            ball->pos.x -= intersectionWidth;
-            ball->velocity.x *= -1;
-        } else if (hittingActorAABB->min.y <= intersection->min.y) {
-            ball->pos.y += intersectionHeight;
-            ball->velocity.y *= -1;
-        } else if (hittingActorAABB->max.y >= intersection->max.y) {
-            ball->pos.y -= intersectionHeight;
-            ball->velocity.y *= -1;
+        if (abs(intersectionWidth - intersectionHeight) <= 2) {
+            if ((intersection->min.x <= hitActorAABB->min.x) || (intersection->max.x >= hitActorAABB->max.x)) {
+                ball->pos.x -= ball->velocity.x + 1;
+                ball->velocity.x *= -1;
+            }
+
+            if ((intersection->min.y <= hitActorAABB->min.y) || (intersection->max.y >= hitActorAABB->max.y)) {
+                ball->pos.y -= ball->velocity.y + 1;
+                ball->velocity.y *= -1;
+            }
+        } if (intersectionWidth > intersectionHeight) {
+            if ((intersection->min.x <= hitActorAABB->min.x) || (intersection->max.x >= hitActorAABB->max.x)) {
+                ball->pos.x -= ball->velocity.x + 1;
+                ball->velocity.x *= -1;
+            }
+        } else {
+            if ((intersection->min.y <= hitActorAABB->min.y) || (intersection->max.y >= hitActorAABB->max.y)) {
+                ball->pos.y -= ball->velocity.y + 1;
+                ball->velocity.y *= -1;
+            }
         }
 
         Block *block = (Block *) collisionData->hitActor;
