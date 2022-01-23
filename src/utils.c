@@ -1,6 +1,25 @@
 #include "utils.h"
+#include "wasm4.h"
 #include <stdlib.h>
 #include <limits.h>
+#include <stdarg.h>
+
+#ifdef DEBUG
+#define STB_SPRINTF_IMPLEMENTATION
+// #define STB_SPRINTF_NOFLOAT
+#include "stb_sprintf.h"
+
+void LOG(const char* fmt, ...) {
+    static char __logBuffer[256];
+    va_list args;
+    va_start(args, fmt);
+    stbsp_vsnprintf(__logBuffer, sizeof(__logBuffer), fmt, args);
+    trace(__logBuffer);
+    va_end(args);
+}
+#else
+void LOG(const char* fmt, ...) { (void)fmt; }
+#endif
 
 static char *itoa_helper(char *dest, int i) {
     if (i <= -10) {
@@ -21,17 +40,16 @@ char *itoa(char *dest, int i) {
     return dest;
 }
 
-int randrange(int a, int b) {
-    return a + (b - a) * (random() * 1.0 / RAND_MAX);
-}
-
-int chooseInt(int *arr, size_t len) {
-
-    return arr[randrange(0, len)];
+double randomNormalized() {
+    return random() / (double) RAND_MAX;
 }
 
 double randrangef(double a, double b) {
-    return a + (b - a) * (random() * 1.0 / RAND_MAX);
+    return a + (b - a) * randomNormalized();
+}
+
+int randrange(int a, int b) {
+    return a + (b - a) * randomNormalized();
 }
 
 // float Point_distanceToPoint(const Point *p, const Point *q) {

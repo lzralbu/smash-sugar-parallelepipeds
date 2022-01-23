@@ -15,11 +15,18 @@ typedef struct Game {
     Pad pad;
     Ball ball;
     Block grid[BLOCK_TOTAL_ROWS][BLOCK_TOTAL_COLUMNS];
+    int maximumScore;
 
     int16_t score;
     int16_t lives;
-    Boolean paused;
 } Game;
+
+typedef enum GameState {
+    GAME_WELCOME = 0,
+    GAME_IN_PROGRESS = 1,
+    GAME_WON         = 2,
+    GAME_LOST        = 3
+} GameState;
 
 void Game_reset();
 void Game_processInput();
@@ -28,5 +35,10 @@ void Game_processCollision();
 void Game_draw();
 
 void Game_incrementScore();
+
+void Game_incrementLives();
+void Game_decrementLives();
+
+GameState Game_getState();
 
 #endif // _GAME_H

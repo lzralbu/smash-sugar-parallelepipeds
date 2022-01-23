@@ -3,25 +3,20 @@
 
 #include <stdint.h>
 
+// DEBUG should be defined to work properly
+void LOG(const char* fmt, ...);
+
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #define max(a,b) ((a) > (b) ? (a) : (b))
 
-// #define MAKE_MIN(TYPE) \
-//         TYPE min##_TYPE(TYPE a, TYPE b) { return a < b ? a : b; }
-
-// MAKE_MIN(int)
-
-// min_int(a, b)
-
 char* itoa(char* dest, int i);
 
-// chooses a random int "uniformly" from the interval [a, b)
-int randrange(int a, int b);
+// selects an "uniformly" random number from the interval [0, 1) (or it might be [0, 1], not sure)
+double randomNormalized();
 
-int chooseInt(int *arr, size_t len);
-
-// chooses a random float "uniformly" from the interval [a, b)
 double randrangef(double a, double b);
+
+int randrange(int a, int b);
 
 typedef enum Boolean {
     FALSE = 0,
@@ -56,8 +51,11 @@ typedef enum GameActorType {
 typedef struct CollisionData {
     void *const hittingActor;
     Rect const *const hittingActorAABB;
+
+    void *const hitActor;
     GameActorType const hitActorType;
     Rect const *const hitActorAABB;
+    
     Rect const *const intersection;
 } CollisionData;
 
