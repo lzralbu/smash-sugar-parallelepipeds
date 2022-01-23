@@ -2,6 +2,8 @@
 
 Game developed for the **WASM-4 Game Jam**.
 
+[Play it here](https://lzralbu.itch.io/smash-sugar-parallelepipeds).
+
 ## TODO
 
 * [x] Find a better color palette ~~maybe something metallic~~.
