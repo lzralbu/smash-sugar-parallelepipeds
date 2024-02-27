@@ -1,4 +1,4 @@
-#include "game.h"
+// #include "game.h"
 #include "wasm4.h"
 
 void start(void) {
@@ -9,6 +9,4 @@ void start(void) {
     PALETTE[3] = 0xffffff;
 }
 
-void update(void) {
-    Game_update();
-}
+void update(void) {}

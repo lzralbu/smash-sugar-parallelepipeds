@@ -4,22 +4,24 @@
 #include <limits.h>
 #include <stdarg.h>
 
-#ifdef DEBUG
-#define STB_SPRINTF_IMPLEMENTATION
-// #define STB_SPRINTF_NOFLOAT
-#include "stb_sprintf.h"
+// #ifdef DEBUG
+// #define STB_SPRINTF_IMPLEMENTATION
+// // #define STB_SPRINTF_NOFLOAT
+// #include "stb_sprintf.h"
 
-void LOG(const char* fmt, ...) {
-    static char __logBuffer[256];
-    va_list args;
-    va_start(args, fmt);
-    stbsp_vsnprintf(__logBuffer, sizeof(__logBuffer), fmt, args);
-    trace(__logBuffer);
-    va_end(args);
-}
-#else
+// void LOG(const char* fmt, ...) {
+//     static char __logBuffer[256];
+//     va_list args;
+//     va_start(args, fmt);
+//     stbsp_vsnprintf(__logBuffer, sizeof(__logBuffer), fmt, args);
+//     trace(__logBuffer);
+//     va_end(args);
+// }
+// #else
+// void LOG(const char* fmt, ...) { (void)fmt; }
+// #endif
+
 void LOG(const char* fmt, ...) { (void)fmt; }
-#endif
 
 static char *itoa_helper(char *dest, int i) {
     if (i <= -10) {
