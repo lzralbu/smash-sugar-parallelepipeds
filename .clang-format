@@ -1,0 +1,29 @@
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+AccessModifierOffset: -4
+AlignAfterOpenBracket: BlockIndent
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: False
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+ArrayInitializerAlignmentStyle: Right
+
+BinPackArguments: false
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Attach
+BreakBeforeTernaryOperators: true
+
+# ColumnLimit: 120
+Cpp11BracedListStyle: false
+
+FixNamespaceComments: false
+
+IndentCaseLabels: true
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+NamespaceIndentation: All
+
+SeparateDefinitionBlocks: Always

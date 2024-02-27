@@ -40,8 +40,9 @@ char *itoa(char *dest, int i) {
     return dest;
 }
 
-double randomNormalized() {
-    return random() / (double) RAND_MAX;
+double randomNormalized(void)
+{
+    return rand() / (double)RAND_MAX;
 }
 
 double randrangef(double a, double b) {
@@ -49,7 +50,7 @@ double randrangef(double a, double b) {
 }
 
 int randrange(int a, int b) {
-    return a + (b - a) * randomNormalized();
+    return (int)(a + (b - a) * randomNormalized());
 }
 
 // float Point_distanceToPoint(const Point *p, const Point *q) {

@@ -8,8 +8,10 @@
 #define WASM_EXPORT(name) __attribute__((export_name(name)))
 #define WASM_IMPORT(name) __attribute__((import_name(name)))
 
-WASM_EXPORT("start") void start ();
-WASM_EXPORT("update") void update ();
+WASM_EXPORT("start")
+void start(void);
+WASM_EXPORT("update")
+void update(void);
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // │                                                                           │
@@ -35,6 +37,7 @@ WASM_EXPORT("update") void update ();
 #define MOUSE_Y ((const int16_t*)0x1c)
 #define MOUSE_BUTTONS ((const uint8_t*)0x1e)
 #define SYSTEM_FLAGS ((uint8_t*)0x1f)
+#define NETPLAY ((const uint8_t *)0x20)
 #define FRAMEBUFFER ((uint8_t*)0xa0)
 
 #define BUTTON_1 1
@@ -74,7 +77,7 @@ void blitSub (const uint8_t* data, int32_t x, int32_t y, uint32_t width, uint32_
 
 /** Draws a line between two points. */
 WASM_IMPORT("line")
-void line (int32_t x, int32_t y, uint32_t width, uint32_t height);
+void line(int32_t x1, int32_t y1, int32_t x2, int32_t y2);
 
 /** Draws a horizontal line. */
 WASM_IMPORT("hline")
@@ -114,6 +117,8 @@ void tone (uint32_t frequency, uint32_t duration, uint32_t volume, uint32_t flag
 #define TONE_MODE2 4
 #define TONE_MODE3 8
 #define TONE_MODE4 12
+#define TONE_PAN_LEFT 16
+#define TONE_PAN_RIGHT 32
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // │                                                                           │

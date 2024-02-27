@@ -12,7 +12,7 @@ void LOG(const char* fmt, ...);
 char* itoa(char* dest, int i);
 
 // selects an "uniformly" random number from the interval [0, 1) (or it might be [0, 1], not sure)
-double randomNormalized();
+double randomNormalized(void);
 
 double randrangef(double a, double b);
 

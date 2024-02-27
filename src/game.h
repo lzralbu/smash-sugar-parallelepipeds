@@ -28,17 +28,17 @@ typedef enum GameState {
     GAME_LOST        = 3
 } GameState;
 
-void Game_reset();
-void Game_processInput();
-void Game_update();
-void Game_processCollision();
-void Game_draw();
+void Game_reset(void);
+void Game_processInput(void);
+void Game_update(void);
+void Game_processCollision(void);
+void Game_draw(void);
 
-void Game_incrementScore();
+void Game_incrementScore(void);
 
-void Game_incrementLives();
-void Game_decrementLives();
+void Game_incrementLives(void);
+void Game_decrementLives(void);
 
-GameState Game_getState();
+GameState Game_getState(void);
 
 #endif // _GAME_H

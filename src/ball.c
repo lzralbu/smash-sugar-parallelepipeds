@@ -27,11 +27,9 @@ void Ball_move(Ball *ball) {
 }
 
 Rect Ball_getAABB(Ball const * ball) {
-
-    return (Rect) {
-        .min = { ball->pos.x, ball->pos.y },
-        .max = { ball->pos.x + BALL_WIDTH, ball->pos.y + BALL_HEIGHT }
-    };
+    return (Rect){ .min = { (int)ball->pos.x, (int)ball->pos.y },
+                   .max = { (int)(ball->pos.x + BALL_WIDTH),
+                            (int)(ball->pos.y + BALL_HEIGHT) } };
 }
 
 void Ball_onCollision(CollisionData const * collisionData) {
@@ -126,5 +124,5 @@ void Ball_onCollision(CollisionData const * collisionData) {
 void Ball_draw(Ball const * ball) {
 
     *DRAW_COLORS = 0x33;
-    rect(ball->pos.x, ball->pos.y, BALL_WIDTH, BALL_HEIGHT);
+    rect((int)ball->pos.x, (int)ball->pos.y, BALL_WIDTH, BALL_HEIGHT);
 }

@@ -45,5 +45,10 @@ void Pad_onCollision(CollisionData const * collisionData) {
 void Pad_draw(Pad const * pad) {
 
     *DRAW_COLORS = 0x22;
-    rect(pad->pos.x, pad->pos.y, pad->size.x, pad->size.y);
+    rect(
+        (int32_t)pad->pos.x,
+        (int32_t)pad->pos.y,
+        (uint32_t)pad->size.x,
+        (uint32_t)pad->size.y
+    );
 }
