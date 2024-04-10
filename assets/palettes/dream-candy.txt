@@ -1,0 +1,9 @@
+;paint.net Palette File
+;Downloaded from Lospec.com/palette-list
+;Palette Name: DREAM CANDY
+;Description: This is a GB palette I made to make pixel art and games with! But please use it for whatever you want and share it with me!
+;Colors: 4
+FF442d6e
+FFd075b7
+FFf0d063
+FFffffff

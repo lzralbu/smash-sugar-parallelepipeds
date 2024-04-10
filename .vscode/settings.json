@@ -1,3 +1,14 @@
 {
-    "C_Cpp.default.configurationProvider": ""
+    "C_Cpp.default.configurationProvider": "",
+    "files.associations": {
+        "*.h": "c",
+        "__config": "c"
+    },
+    "cSpell.words": [
+        "blit",
+        "FRAMEBUFFER",
+        "gamepad"
+    ],
+    "makefile.compileCommandsPath": ".vscode/compile_commands.json",
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\.vscode\\compile_commands.json"
 }
