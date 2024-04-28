@@ -2,17 +2,22 @@
 #define ENTITY_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct {
-    float x;
-    float y;
-    float vx;
-    float vy;
-    uint16_t width;
-    uint16_t height;
+    int16_t x;
+    int16_t y;
+    float rx; // (-1, 1)
+    float ry; // (-1, 1)
+    float vx; // pixels/frame
+    float vy; // pixels/frame
+    int16_t width;
+    int16_t height;
     uint8_t color;
+    bool alive;
 } Entity;
 
-void entityUpdate(Entity *ent, _Bool move);
+void entityMove(Entity *ent);
+void entityDraw(const Entity *ent);
 
 #endif // ENTITY_H

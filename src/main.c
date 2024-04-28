@@ -22,11 +22,11 @@ void start(void) {
 
     *DRAW_COLORS = 0;
 
-    Entity alice = { .x = 10, .y = 50, .width = 50, .height = 50 };
-    Entity bob = { .x = 50, .y = 50, .width = 50, .height = 50 };
+    // Entity alice = { .x = 10, .y = 50, .width = 50, .height = 50 };
+    // Entity bob = { .x = 50, .y = 50, .width = 50, .height = 50 };
 
-    float aliceLeft = alice.x;
-    float aliceRight = alice.x + (float)alice.width;
+    // float aliceLeft = alice.x;
+    // float aliceRight = alice.x + (float)alice.width;
 
     menuStart();
 }
