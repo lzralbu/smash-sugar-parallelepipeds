@@ -11,8 +11,6 @@ enum {
 
 static int currentScene = SCENE_MENU;
 
-#include "entity.h"
-
 void start(void) {
     // DREAM CANDY PALETTE(https://lospec.com/palette-list/dream-candy)
     PALETTE[0] = 0x442d6e;
@@ -21,12 +19,6 @@ void start(void) {
     PALETTE[3] = 0xffffff;
 
     *DRAW_COLORS = 0;
-
-    // Entity alice = { .x = 10, .y = 50, .width = 50, .height = 50 };
-    // Entity bob = { .x = 50, .y = 50, .width = 50, .height = 50 };
-
-    // float aliceLeft = alice.x;
-    // float aliceRight = alice.x + (float)alice.width;
 
     menuStart();
 }

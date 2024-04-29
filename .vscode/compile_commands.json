@@ -30,7 +30,7 @@
         "file": "c:\\Users\\lazaro\\stuff-of-mine\\code\\game-dev\\jams\\wasm-4-game-jam\\smash-sugar-parallelepipeds\\src\\input.c"
     },
     {
-        "command": "\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/bin/clang\" --sysroot=\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/share/wasi-sysroot\" -c src/main.c -o build/main.o -std=c99 -Wall -Wextra -Werror -Wno-unused -Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types -DNDEBUG -Oz -flto\r",
+        "command": "\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/bin/clang\" --sysroot=\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/share/wasi-sysroot\" -c src/main.c -o build/main.o -std=c99 -Wall -Wextra -Werror -Wno-unused -Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-poi ",
         "directory": "c:/Users/lazaro/stuff-of-mine/code/game-dev/jams/wasm-4-game-jam/smash-sugar-parallelepipeds",
         "file": "c:\\Users\\lazaro\\stuff-of-mine\\code\\game-dev\\jams\\wasm-4-game-jam\\smash-sugar-parallelepipeds\\src\\main.c"
     },
@@ -38,5 +38,10 @@
         "command": "\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/bin/clang\" --sysroot=\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/share/wasi-sysroot\" -c src/menu.c -o build/menu.o -std=c99 -Wall -Wextra -Werror -Wno-unused -Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types -DNDEBUG -Oz -flto\r",
         "directory": "c:/Users/lazaro/stuff-of-mine/code/game-dev/jams/wasm-4-game-jam/smash-sugar-parallelepipeds",
         "file": "c:\\Users\\lazaro\\stuff-of-mine\\code\\game-dev\\jams\\wasm-4-game-jam\\smash-sugar-parallelepipeds\\src\\menu.c"
+    },
+    {
+        "command": "\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/bin/clang\" --sysroot=\"/c/build-tools/webassembly/wasi-sdk/wasi-sdk-21.0+m/share/wasi-sysroot\" -c src/utils.c -o build/utils.o -std=c99 -Wall -Wextra -Werror -Wno-unused -Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types -DNDEBUG -Oz -flto\r",
+        "directory": "c:/Users/lazaro/stuff-of-mine/code/game-dev/jams/wasm-4-game-jam/smash-sugar-parallelepipeds",
+        "file": "c:\\Users\\lazaro\\stuff-of-mine\\code\\game-dev\\jams\\wasm-4-game-jam\\smash-sugar-parallelepipeds\\src\\utils.c"
     }
 ]

@@ -29,3 +29,4 @@ void entityDraw(const Entity *ent) {
     setDrawColor(COLOR_PRIMARY, ent->color);
     rect(ent->x, ent->y, (uint32_t)ent->width, (uint32_t)ent->height);
 }
+
