@@ -1,15 +1,8 @@
-#include "gameLevel.h"
-#include "input.h"
-#include "menu.h"
+#include "game.h"
 
 #include "wasm4.h"
 
-enum {
-    SCENE_MENU,
-    SCENE_GAME_LEVEL,
-};
-
-static int currentScene = SCENE_MENU;
+static Game game;
 
 void start(void) {
     // DREAM CANDY PALETTE(https://lospec.com/palette-list/dream-candy)
@@ -20,20 +13,9 @@ void start(void) {
 
     *DRAW_COLORS = 0;
 
-    menuStart();
+    gameStart(&game);
 }
 
 void update(void) {
-    inputUpdate();
-
-    if (isAnyPressed(1) && currentScene == SCENE_MENU) {
-        currentScene = SCENE_GAME_LEVEL;
-        gameLevelStart();
-    }
-
-    if (currentScene == SCENE_MENU) {
-        menuUpdate();
-    } else if (currentScene == SCENE_GAME_LEVEL) {
-        gameLevelUpdate();
-    }
+    gameUpdate(&game);
 }

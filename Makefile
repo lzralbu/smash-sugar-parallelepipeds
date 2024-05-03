@@ -16,7 +16,8 @@ DEBUG = 0
 
 # Compilation flags
 CFLAGS = -std=c99 -Wall -Wextra -Werror \
--Wno-unused -Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla \
+-Wno-unused -Wno-unused-parameter \
+-Wconversion -Wsign-conversion -MMD -MP -fno-exceptions -Wpedantic -Wcast-align -Wpointer-arith -Wstrict-prototypes -Wstrict-overflow=3 -Wshadow -Wswitch-enum -Werror=alloca -Werror=vla \
 -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types
 ifeq ($(DEBUG), 1)
 	CFLAGS += -DDEBUG -O0 -g
@@ -62,7 +63,7 @@ all: build/cart.wasm
 
 # Link cart.wasm from all object files and run wasm-opt
 build/cart.wasm: $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
+	$(CC) -o $@ $(OBJECTS) $(LDFLAGS)
 ifneq ($(DEBUG), 1)
 ifeq (, $(shell command -v $(WASM_OPT)))
 	@echo Tip: $(WASM_OPT) was not found. Install it from binaryen for smaller builds!
@@ -72,12 +73,12 @@ endif
 endif
 
 # Compile C sources
-build/%.o: src/%.c
+build/%.o: src/%.c 
 	@$(MKDIR_BUILD)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 # Compile C++ sources
-build/%.o: src/%.cpp
+build/%.o: src/%.cpp 
 	@$(MKDIR_BUILD)
 	$(CXX) -c $< -o $@ $(CFLAGS)
 

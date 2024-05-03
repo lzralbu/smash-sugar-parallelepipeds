@@ -25,7 +25,6 @@ void animationUpdate(Animation *animation) {
     if (animation->__timer < animation->rate) {
         return;
     }
-    uint8_t prev = animation->current;
     // LESSON: DO NOT MIX SIGNED WITH UNSIGNED, UNLESS YOU KNOW EXACTLY WHAT
     // YOU'RE DOING
     animation->__timer = 0;
@@ -43,5 +42,4 @@ void animationUpdate(Animation *animation) {
          animation->current == animation->last)) {
         animation->__direction *= -1;
     }
-    // tracef("\n\tfrom: %d\n\tto: %d\n", prev, animation->current);
 }

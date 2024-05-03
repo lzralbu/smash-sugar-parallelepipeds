@@ -1,5 +1,4 @@
 #include "aabb.h"
-#include "entity.h"
 #include "utils.h"
 
 int16_t aabbWidth(const AABB *aabb) {
@@ -15,10 +14,6 @@ void aabbFromRect(int16_t x, int16_t y, int16_t w, int16_t h, AABB *out) {
     out->r = x + w - 1;
     out->t = y;
     out->b = y + h - 1;
-}
-
-void aabbFromEntity(const Entity *ent, AABB *out) {
-    aabbFromRect(ent->x, ent->y, ent->width, ent->height, out);
 }
 
 bool aabbHasIntersection(const AABB *p, const AABB *q) {

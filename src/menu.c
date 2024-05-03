@@ -1,6 +1,9 @@
-#include "menu.h"
+#include "wasm4.h"
 
+#include "menu.h"
+#include "game.h"
 #include "animation.h"
+#include "input.h"
 #include "color.h"
 #include "utils.h"
 
@@ -9,17 +12,19 @@
 #include "../assets/images/controlsSpriteFrame3.h"
 #include "../assets/images/sceneMenuSprite.h"
 
-#include "wasm4.h"
-
-static Animation controls;
-static Animation footer;
-
-void menuStart(void) {
-    animationStart(&controls, 10, 1, 3, ANIMATION_PINGPONG);
-    animationStart(&footer, 4, 1, 2, ANIMATION_FORWARD);
+void menuStart(Menu *menu) {
+    animationStart(&menu->controlsAnimation, 10, 1, 3, ANIMATION_PINGPONG);
+    animationStart(&menu->footerAnimation, 4, 1, 2, ANIMATION_FORWARD);
 }
 
-void menuUpdate(void) {
+void menuUpdate(Menu *menu, void *game) {
+    if (isAnyPressed(1)) {
+        gameChangeState(game, GAME_STATE_ONGOING);
+    }
+
+    animationUpdate(&menu->controlsAnimation);
+    animationUpdate(&menu->footerAnimation);
+
     *DRAW_COLORS = 0x4321;
     blit(
         sceneMenuSprite,
@@ -30,13 +35,10 @@ void menuUpdate(void) {
         sceneMenuSpriteFlags
     );
 
-    setDrawColor(COLOR_SECONDARY, COLOR_4);
-
     int controlsX = 53;
     int controlsY = 115;
-
-    animationUpdate(&controls);
-    if (controls.current == 1) {
+    setDrawColor(COLOR_SECONDARY, COLOR_4);
+    if (menu->controlsAnimation.current == 1) {
         blit(
             controlsSpriteFrame1,
             controlsX,
@@ -45,7 +47,7 @@ void menuUpdate(void) {
             controlsSpriteFrame1Height,
             controlsSpriteFrame1Flags
         );
-    } else if (controls.current == 2) {
+    } else if (menu->controlsAnimation.current == 2) {
         blit(
             controlsSpriteFrame2,
             controlsX,
@@ -54,7 +56,7 @@ void menuUpdate(void) {
             controlsSpriteFrame2Height,
             controlsSpriteFrame2Flags
         );
-    } else if (controls.current == 3) {
+    } else if (menu->controlsAnimation.current == 3) {
         blit(
             controlsSpriteFrame3,
             controlsX,
@@ -69,9 +71,9 @@ void menuUpdate(void) {
     setDrawColor(COLOR_SECONDARY, COLOR_TRANSPARENT);
     text("Move", 53 + 16 + 6, 120);
 
-    animationUpdate(&footer);
+    animationUpdate(&menu->footerAnimation);
     setDrawColor(COLOR_SECONDARY, COLOR_TRANSPARENT);
-    if (footer.current == 1) {
+    if (menu->footerAnimation.current == 1) {
         setDrawColor(COLOR_PRIMARY, COLOR_1);
     } else {
         setDrawColor(COLOR_PRIMARY, COLOR_TRANSPARENT);
