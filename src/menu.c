@@ -20,6 +20,7 @@ void menuStart(Menu *menu) {
 void menuUpdate(Menu *menu, void *game) {
     if (isAnyPressed(1)) {
         gameChangeState(game, GAME_STATE_ONGOING);
+        return;
     }
 
     animationUpdate(&menu->controlsAnimation);

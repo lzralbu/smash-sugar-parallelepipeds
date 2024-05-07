@@ -4,8 +4,8 @@
 #include "wasm4.h"
 
 void blockManagerInit(
-    BlockManager *manager, uint8_t rows, uint8_t cols, uint8_t blockWidth,
-    uint8_t blockHeight, uint8_t vSpace, uint8_t hSpace
+    BlockManager *manager, uint8_t blockWidth, uint8_t blockHeight,
+    uint8_t cols, uint8_t rows, uint8_t hSpace, uint8_t vSpace
 ) {
     MY_ASSERT(rows <= 15 && cols <= 15);
 
@@ -29,18 +29,13 @@ void blockManagerInit(
 }
 
 void blockManagerDraw(const BlockManager *manager) {
-    for (uint8_t blockIndex = 0; blockIndex < manager->numAlive; ++blockIndex) {
-        setDrawColor(COLOR_PRIMARY, manager->blocks[blockIndex].color);
+    for (int i = 0; i < manager->numAlive; ++i) {
+        setDrawColor(COLOR_PRIMARY, manager->blocks[i].color);
         rect(
-            manager->blocks[blockIndex].x,
-            manager->blocks[blockIndex].y,
+            manager->blocks[i].x,
+            manager->blocks[i].y,
             manager->blockWidth,
             manager->blockHeight
-        );
-        tracef(
-            "%d %d\n",
-            manager->blocks[blockIndex].x,
-            manager->blocks[blockIndex].y
         );
     }
 }

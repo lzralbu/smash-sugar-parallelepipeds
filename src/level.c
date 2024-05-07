@@ -1,6 +1,7 @@
 #include "wasm4.h"
 
 #include "level.h"
+#include "aabb.h"
 #include "game.h"
 #include "color.h"
 #include "input.h"
@@ -60,170 +61,234 @@ void levelUpdate(Level *level, void *game) {
         itoa(textLives + 6, level->lives);
     }
     textLives[15] = '\0';
+
+    setDrawColor(COLOR_PRIMARY, COLOR_2);
     text(textLives, 10, 10);
 }
 
 static void checkCollision(Level *level, Game *game) {
-    // AABB screenLeft = { 0 };
-    // aabbFromRect(-10, 0, 10, 160, &screenLeft);
+    AABB screenLeft = { 0 };
+    aabbFromRect(-10, 0, 10, 160, &screenLeft);
 
-    // AABB screenRight = { 0 };
-    // aabbFromRect(160, 0, 10, 160, &screenRight);
+    AABB screenRight = { 0 };
+    aabbFromRect(160, 0, 10, 160, &screenRight);
 
-    // AABB screenTop = { 0 };
-    // aabbFromRect(0, -10, 160, 10, &screenTop);
+    AABB screenTop = { 0 };
+    aabbFromRect(0, -10, 160, 10, &screenTop);
 
-    // AABB screenBottom = { 0 };
-    // aabbFromRect(0, 160, 160, 10, &screenBottom);
+    AABB screenBottom = { 0 };
+    aabbFromRect(0, 160, 160, 10, &screenBottom);
 
-    // AABB ballAABB;
-    // aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
+    AABB padAABB;
+    aabbFromRect(
+        level->pad.x, level->pad.y, level->pad.w, level->pad.h, &padAABB
+    );
 
-    // AABB padAABB;
-    // aabbFromEntity(&entities[ENTITY_PAD], &padAABB);
+    AABB ballAABB;
+    aabbFromRect(
+        level->ball.x, level->ball.y, level->ball.w, level->ball.h, &ballAABB
+    );
 
-    // AABB intersection = { 0 };
+    AABB intersection = { 0 };
 
-    // // pad vs screen left
-    // if (aabbFindIntersection(&padAABB, &screenLeft, &intersection)) {
-    //     entities[ENTITY_PAD].x += aabbWidth(&intersection);
-    //     entities[ENTITY_PAD].vx *= -1;
-    //     aabbFromEntity(&entities[ENTITY_PAD], &padAABB);
-    // }
+    // pad vs screen left
+    if (aabbFindIntersection(&padAABB, &screenLeft, &intersection)) {
+        level->pad.x += aabbWidth(&intersection);
+        level->pad.direction *= -1;
+        aabbFromRect(
+            level->pad.x, level->pad.y, level->pad.w, level->pad.h, &padAABB
+        );
+    }
 
-    // // pad vs screen right
-    // if (aabbFindIntersection(&padAABB, &screenRight, &intersection)) {
-    //     entities[ENTITY_PAD].x -= aabbWidth(&intersection);
-    //     entities[ENTITY_PAD].vx *= -1;
-    //     aabbFromEntity(&entities[ENTITY_PAD], &padAABB);
-    // }
+    // pad vs screen right
+    if (aabbFindIntersection(&padAABB, &screenRight, &intersection)) {
+        level->pad.x -= aabbWidth(&intersection);
+        level->pad.direction *= -1;
+        aabbFromRect(
+            level->pad.x, level->pad.y, level->pad.w, level->pad.h, &padAABB
+        );
+    }
 
-    // // ball vs screen left
-    // if (aabbFindIntersection(&ballAABB, &screenLeft, &intersection)) {
-    //     entities[ENTITY_BALL].x += aabbWidth(&intersection);
-    //     entities[ENTITY_BALL].vx *= -1;
-    //     aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    // }
+    // ball vs screen left
+    if (aabbFindIntersection(&ballAABB, &screenLeft, &intersection)) {
+        level->ball.x += aabbWidth(&intersection);
+        level->ball.vx *= -1;
+        aabbFromRect(
+            level->ball.x,
+            level->ball.y,
+            level->ball.w,
+            level->ball.h,
+            &ballAABB
+        );
+    }
 
-    // // ball vs screen right
-    // if (aabbFindIntersection(&ballAABB, &screenRight, &intersection)) {
-    //     entities[ENTITY_BALL].x -= aabbWidth(&intersection);
-    //     entities[ENTITY_BALL].vx *= -1;
-    //     aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    // }
+    // ball vs screen right
+    if (aabbFindIntersection(&ballAABB, &screenRight, &intersection)) {
+        level->ball.x -= aabbWidth(&intersection);
+        level->ball.vx *= -1;
+        aabbFromRect(
+            level->ball.x,
+            level->ball.y,
+            level->ball.w,
+            level->ball.h,
+            &ballAABB
+        );
+    }
 
-    // // ball vs screen top
-    // if (aabbFindIntersection(&ballAABB, &screenTop, &intersection)) {
-    //     entities[ENTITY_BALL].y += aabbHeight(&intersection);
-    //     entities[ENTITY_BALL].vy *= -1;
-    //     aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    // }
+    // ball vs screen top
+    if (aabbFindIntersection(&ballAABB, &screenTop, &intersection)) {
+        level->ball.y += aabbHeight(&intersection);
+        level->ball.vy *= -1;
+        aabbFromRect(
+            level->ball.x,
+            level->ball.y,
+            level->ball.w,
+            level->ball.h,
+            &ballAABB
+        );
+    }
 
-    // // ball vs screen bottom
-    // if (aabbFindIntersection(&ballAABB, &screenBottom, &intersection)) {
-    //     entities[ENTITY_BALL].y -= aabbHeight(&intersection);
-    //     entities[ENTITY_BALL].vy *= -1;
-    //     aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
+    // ball vs screen bottom
+    if (aabbFindIntersection(&ballAABB, &screenBottom, &intersection)) {
+        level->ball.y -= aabbHeight(&intersection);
+        level->ball.vy *= -1;
+        aabbFromRect(
+            level->ball.x,
+            level->ball.y,
+            level->ball.w,
+            level->ball.h,
+            &ballAABB
+        );
 
-    //     lives--;
-    //     if (lives == 0) {
-    //         status = GAME_OVER;
-    //     }
+        --level->lives;
+        tone(600 | (100 << 16), 15, 100, TONE_PULSE1);
+    }
 
-    //     tone(600 | (100 << 16), 15, 100, TONE_PULSE1);
-    // }
+    // ball vs pad
+    if (aabbFindIntersection(&ballAABB, &padAABB, &intersection)) {
+        level->ball.y -= aabbHeight(&intersection);
+        level->ball.vy *= -1;
+        aabbFromRect(
+            level->ball.x,
+            level->ball.y,
+            level->ball.w,
+            level->ball.h,
+            &ballAABB
+        );
+    }
 
-    // // ball vs pad
-    // if (aabbFindIntersection(&ballAABB, &padAABB, &intersection)) {
-    //     entities[ENTITY_BALL].y -= aabbHeight(&intersection);
-    //     entities[ENTITY_BALL].vy *= -1;
-    //     aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    // }
+    // ball vs blocks
+    for (int i = 0; i < level->blockManager.numAlive; ++i) {
+        AABB blockAABB = { 0 };
+        aabbFromRect(
+            level->blockManager.blocks[i].x,
+            level->blockManager.blocks[i].y,
+            level->blockManager.blockWidth,
+            level->blockManager.blockHeight,
+            &blockAABB
+        );
 
-    // // ball vs blocks
-    // for (int i = 0; i < GRID_TOTAL; ++i) {
-    //     if (!entities[i].alive) {
-    //         continue;
-    //     }
+        if (!aabbFindIntersection(&ballAABB, &blockAABB, &intersection)) {
+            continue;
+        }
 
-    //     AABB blockAABB = { 0 };
-    //     aabbFromEntity(&entities[i], &blockAABB);
+        blockManagerDeactivateBlock(&level->blockManager, (uint8_t)i);
+        tone(100 | (500 << 16), 3, 100, TONE_PULSE2);
 
-    //     if (!aabbFindIntersection(&ballAABB, &blockAABB, &intersection)) {
-    //         continue;
-    //     }
+        AABB blockLeftAABB = { 0 };
+        aabbFromRect(
+            level->blockManager.blocks[i].x,
+            level->blockManager.blocks[i].y,
+            1,
+            level->blockManager.blockHeight,
+            &blockLeftAABB
+        );
 
-    //     entities[i].alive = false;
-    //     score++;
-    //     if (score == GRID_TOTAL) {
-    //         status = GAME_WON;
-    //     }
+        AABB blockRightAABB = { 0 };
+        aabbFromRect(
+            level->blockManager.blocks[i].x + level->blockManager.blockWidth -
+                1,
+            level->blockManager.blocks[i].y,
+            1,
+            level->blockManager.blockHeight,
+            &blockRightAABB
+        );
 
-    //     tone(100 | (500 << 16), 3, 100, TONE_PULSE2);
+        AABB blockTopAABB = { 0 };
+        aabbFromRect(
+            level->blockManager.blocks[i].x,
+            level->blockManager.blocks[i].y,
+            level->blockManager.blockWidth,
+            1,
+            &blockTopAABB
+        );
 
-    //     AABB blockLeftAABB = { 0 };
-    //     aabbFromRect(
-    //         entities[i].x, entities[i].y, 1, entities[i].height,
-    //         &blockLeftAABB
-    //     );
+        AABB blockBottomAABB = { 0 };
+        aabbFromRect(
+            level->blockManager.blocks[i].x,
+            level->blockManager.blocks[i].y + level->blockManager.blockHeight -
+                1,
+            level->blockManager.blockWidth,
+            1,
+            &blockBottomAABB
+        );
 
-    //     AABB blockRightAABB = { 0 };
-    //     aabbFromRect(
-    //         entities[i].x + entities[i].width - 1,
-    //         entities[i].y,
-    //         1,
-    //         entities[i].height,
-    //         &blockRightAABB
-    //     );
+        // ball vs block left
+        if (aabbFindIntersection(&ballAABB, &blockLeftAABB, &intersection) &&
+            level->ball.vx > 0) {
+            level->ball.x -= aabbWidth(&intersection);
+            level->ball.vx *= -1;
+            aabbFromRect(
+                level->ball.x,
+                level->ball.y,
+                level->ball.w,
+                level->ball.h,
+                &ballAABB
+            );
+        }
 
-    //     AABB blockTopAABB = { 0 };
-    //     aabbFromRect(
-    //         entities[i].x, entities[i].y, entities[i].width, 1, &blockTopAABB
-    //     );
+        // ball vs block right
+        if (aabbFindIntersection(&ballAABB, &blockRightAABB, &intersection) &&
+            level->ball.vx < 0) {
+            level->ball.x += aabbWidth(&intersection);
+            level->ball.vx *= -1;
+            aabbFromRect(
+                level->ball.x,
+                level->ball.y,
+                level->ball.w,
+                level->ball.h,
+                &ballAABB
+            );
+        }
 
-    //     AABB blockBottomAABB = { 0 };
-    //     aabbFromRect(
-    //         entities[i].x,
-    //         entities[i].y + entities[i].height - 1,
-    //         entities[i].width,
-    //         1,
-    //         &blockBottomAABB
-    //     );
+        // ball vs block top
+        if (aabbFindIntersection(&ballAABB, &blockTopAABB, &intersection) &&
+            level->ball.vy > 0) {
+            level->ball.y -= aabbHeight(&intersection);
+            level->ball.vy *= -1;
+            aabbFromRect(
+                level->ball.x,
+                level->ball.y,
+                level->ball.w,
+                level->ball.h,
+                &ballAABB
+            );
+        }
 
-    //     // ball vs block left
-    //     if (aabbFindIntersection(&ballAABB, &blockLeftAABB, &intersection) &&
-    //         entities[ENTITY_BALL].vx > 0) {
-    //         entities[ENTITY_BALL].x -= aabbWidth(&intersection);
-    //         entities[ENTITY_BALL].vx *= -1;
-    //         aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    //     }
+        // ball vs block bottom
+        if (aabbFindIntersection(&ballAABB, &blockBottomAABB, &intersection) &&
+            level->ball.vy < 0) {
+            level->ball.y += aabbHeight(&intersection);
+            level->ball.vy *= -1;
+            aabbFromRect(
+                level->ball.x,
+                level->ball.y,
+                level->ball.w,
+                level->ball.h,
+                &ballAABB
+            );
+        }
 
-    //     // ball vs block right
-    //     if (aabbFindIntersection(&ballAABB, &blockRightAABB, &intersection)
-    //     &&
-    //         entities[ENTITY_BALL].vx < 0) {
-    //         entities[ENTITY_BALL].x += aabbWidth(&intersection);
-    //         entities[ENTITY_BALL].vx *= -1;
-    //         aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    //     }
-
-    //     // ball vs block top
-    //     if (aabbFindIntersection(&ballAABB, &blockTopAABB, &intersection) &&
-    //         entities[ENTITY_BALL].vy > 0) {
-    //         entities[ENTITY_BALL].y -= aabbHeight(&intersection);
-    //         entities[ENTITY_BALL].vy *= -1;
-    //         aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    //     }
-
-    //     // ball vs block bottom
-    //     if (aabbFindIntersection(&ballAABB, &blockBottomAABB, &intersection)
-    //     &&
-    //         entities[ENTITY_BALL].vy < 0) {
-    //         entities[ENTITY_BALL].y += aabbHeight(&intersection);
-    //         entities[ENTITY_BALL].vy *= -1;
-    //         aabbFromEntity(&entities[ENTITY_BALL], &ballAABB);
-    //     }
-
-    //     break;
-    // }
+        break;
+    }
 }

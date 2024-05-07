@@ -12,6 +12,7 @@ typedef struct {
 } Block;
 
 typedef struct {
+    Block blocks[MAX_BLOCKS_TOTAL];
     uint8_t blockWidth;
     uint8_t blockHeight;
     uint8_t cols;
@@ -20,7 +21,6 @@ typedef struct {
     uint8_t vSpace;
     uint8_t numTotal;
     uint8_t numAlive;
-    Block blocks[MAX_BLOCKS_TOTAL];
 } BlockManager;
 
 void blockManagerInit(
