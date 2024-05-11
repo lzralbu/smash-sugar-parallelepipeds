@@ -35,6 +35,10 @@
                     0)));
 #endif
 
+// out receives u + v * t
+void addMultiple(const int16_t *u, const int16_t *v, int16_t t, int16_t *out);
+int16_t dot(const int16_t *u, const int16_t *v);
+void reflection(const int16_t *v, const int16_t *normal, int16_t *out);
 char *itoa(char *dest, int i);
 
 #endif // UTILS_H

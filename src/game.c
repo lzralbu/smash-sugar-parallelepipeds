@@ -12,10 +12,8 @@ void gameUpdate(Game *game) {
     inputUpdate();
 
     if (game->flag == GAME_STATE_MENU) {
-        // menuUpdate(&game->data.menu, game);
         menuUpdate(&game->menu, game);
     } else if (game->flag == GAME_STATE_ONGOING) {
-        // levelUpdate(&game->data.level, game);
         levelUpdate(&game->level, game);
     } else if (game->flag == GAME_STATE_LOST) {
         if (isAnyPressed(1)) {
@@ -37,10 +35,8 @@ void gameUpdate(Game *game) {
 void gameChangeState(Game *game, GameStateFlag newState) {
     game->flag = newState;
     if (newState == GAME_STATE_MENU) {
-        // menuStart(&game->data.menu);
         menuStart(&game->menu);
     } else if (newState == GAME_STATE_ONGOING) {
-        // levelStart(&game->data.level);
         levelStart(&game->level);
     }
 }

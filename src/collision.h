@@ -18,7 +18,7 @@ typedef struct {
 // will be used for the screen boundaries
 typedef struct {
     int16_t normal[2];
-    int16_t offset; // distance from origin
+    int16_t offset; // signed distance from origin
 } CollisionLine;
 
 typedef struct {
@@ -36,7 +36,7 @@ typedef struct {
 } CollisionData;
 
 bool intersectionTestRectangleAndRectangle(
-    const CollisionRectangle *a, const CollisionRectangle *b
+    const CollisionRectangle *rect1, const CollisionRectangle *rect2
 );
 
 bool intersectionTestRectangleAndHalfPlane(
@@ -44,7 +44,7 @@ bool intersectionTestRectangleAndHalfPlane(
 );
 
 uint8_t collisionRectangleAndRectangle(
-    const CollisionRectangle *a, const CollisionRectangle *b,
+    const CollisionRectangle *rect1, const CollisionRectangle *rect2,
     CollisionData *data
 );
 

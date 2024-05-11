@@ -2,19 +2,18 @@
 #define BLOCK_H
 
 #include <stdint.h>
+#include "collision.h"
 
 #define MAX_BLOCKS_TOTAL (15 * 15)
 
 typedef struct {
-    uint8_t x;
-    uint8_t y;
+    RigidBody body;
+    CollisionRectangle rect;
     uint8_t color;
 } Block;
 
 typedef struct {
     Block blocks[MAX_BLOCKS_TOTAL];
-    uint8_t blockWidth;
-    uint8_t blockHeight;
     uint8_t cols;
     uint8_t rows;
     uint8_t hSpace;

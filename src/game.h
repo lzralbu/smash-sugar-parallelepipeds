@@ -12,14 +12,8 @@ typedef enum {
 } GameStateFlag;
 
 typedef struct {
-    // union {
-    //     Menu menu;
-    //     Level level;
-    // } data;
-
     Menu menu;
     Level level;
-
     GameStateFlag flag;
 } Game;
 

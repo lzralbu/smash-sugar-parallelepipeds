@@ -1,24 +1,28 @@
 #include <stdlib.h>
 
 #include "collision.h"
+#include "utils.h"
 
 bool intersectionTestRectangleAndRectangle(
-    const CollisionRectangle *a, const CollisionRectangle *b
+    const CollisionRectangle *rect1, const CollisionRectangle *rect2
 ) {
-    int16_t t;
-    if ((t = a->body->position[0] - b->body->position[0]) > b->d[0] ||
-        -t > a->d[0]) {
+    int16_t left1 = rect1->body->position[0];
+    int16_t right1 = rect1->body->position[0] + rect1->d[0] - 1;
+    int16_t top1 = rect1->body->position[1];
+    int16_t bottom1 = rect1->body->position[1] + rect1->d[1] - 1;
+
+    int16_t left2 = rect2->body->position[0];
+    int16_t right2 = rect2->body->position[0] + rect2->d[0] - 1;
+    int16_t top2 = rect2->body->position[1];
+    int16_t bottom2 = rect2->body->position[1] + rect2->d[1] - 1;
+
+    if (left1 > right2 || left2 > right1) {
         return false;
     }
-    if ((t = a->body->position[1] - b->body->position[1]) > b->d[1] ||
-        -t > a->d[1]) {
+    if (top1 > bottom2 || top2 > bottom1) {
         return false;
     }
     return true;
-}
-
-static int16_t dot(const int16_t *u, const int16_t *v) {
-    return u[0] * v[0] + u[1] * v[1];
 }
 
 bool intersectionTestRectangleAndHalfPlane(
@@ -37,20 +41,128 @@ bool intersectionTestRectangleAndHalfPlane(
 }
 
 uint8_t collisionRectangleAndRectangle(
-    const CollisionRectangle *a, const CollisionRectangle *b,
+    const CollisionRectangle *rect1, const CollisionRectangle *rect2,
     CollisionData *data
 ) {
     if (data->length >= data->capacity) {
         return 0;
     }
 
-    if (!intersectionTestRectangleAndRectangle(a, b)) {
+    int16_t left1 = rect1->body->position[0];
+    int16_t right1 = rect1->body->position[0] + rect1->d[0] - 1;
+    int16_t top1 = rect1->body->position[1];
+    int16_t bottom1 = rect1->body->position[1] + rect1->d[1] - 1;
+
+    int16_t left2 = rect2->body->position[0];
+    int16_t right2 = rect2->body->position[0] + rect2->d[0] - 1;
+    int16_t top2 = rect2->body->position[1];
+    int16_t bottom2 = rect2->body->position[1] + rect2->d[1] - 1;
+
+    if (left1 > right2 || left2 > right1) {
+        return 0;
+    }
+    if (top1 > bottom2 || top2 > bottom1) {
         return 0;
     }
 
-    // TODO
+    /*
 
-    return 0;
+    // I'll assume that neither of the following situations ever happens:
+    //     left2 <= left1 <= right1 <= right2
+    //     top2 <= top1 <= bottom1 <= bottom2
+    IGNORE the comments above, for now
+
+    The possible scenarios are(only parallel edge-edge collisions are
+    considered):
+
+    vertical edges check:
+
+        left1 can only cross right2
+        right1 can only cross left2
+
+    horizontal edges check:
+
+        top1 can only cross bottom2
+        bottom1 can only cross top2
+
+    */
+
+    uint8_t initialDataLength = data->length;
+
+    // bool forbiddenVerticalEdgesPosition = left2 <= left1 && right1 <= right2;
+    // left1 crosses right2
+    // if (!forbiddenVerticalEdgesPosition && left2 <= left1 && left1 <= right2)
+    // {
+    if (left2 <= left1 && left1 <= right2) {
+        data->contacts[data->length].contactPoint[0] = right2;
+        data->contacts[data->length].contactPoint[1] = MAX(top1, top2);
+
+        data->contacts[data->length].contactNormal[0] = 1;
+        data->contacts[data->length].contactNormal[1] = 0;
+
+        data->contacts[data->length].penetration = right2 - left1 + 1;
+
+        data->contacts[data->length].firstBody = rect1->body;
+        data->contacts[data->length].secondBody = rect2->body;
+
+        ++data->length;
+    }
+
+    // right1 crosses left2
+    // if (!forbiddenVerticalEdgesPosition && left2 <= right1 &&
+    //     right1 <= right2) {
+    if (left2 <= right1 && right1 <= right2) {
+        data->contacts[data->length].contactPoint[0] = left2;
+        data->contacts[data->length].contactPoint[1] = MAX(top1, top2);
+
+        data->contacts[data->length].contactNormal[0] = -1;
+        data->contacts[data->length].contactNormal[1] = 0;
+
+        data->contacts[data->length].penetration = right1 - left2 + 1;
+
+        data->contacts[data->length].firstBody = rect1->body;
+        data->contacts[data->length].secondBody = rect2->body;
+
+        ++data->length;
+    }
+
+    // bool forbiddenHorizontalEdgesPosition = top2 <= top1 && bottom1 <=
+    // bottom2; top1 crosses bottom2 if (!forbiddenHorizontalEdgesPosition &&
+    // top2 <= top1 && top1 <= bottom2) {
+    if (top2 <= top1 && top1 <= bottom2) {
+        data->contacts[data->length].contactPoint[0] = MAX(left1, left2);
+        data->contacts[data->length].contactPoint[1] = bottom2;
+
+        data->contacts[data->length].contactNormal[0] = 0;
+        data->contacts[data->length].contactNormal[1] = 1;
+
+        data->contacts[data->length].penetration = bottom2 - top1 + 1;
+
+        data->contacts[data->length].firstBody = rect1->body;
+        data->contacts[data->length].secondBody = rect2->body;
+
+        ++data->length;
+    }
+
+    // bottom1 crosses top2
+    // if (!forbiddenHorizontalEdgesPosition && top2 <= bottom1 &&
+    //     bottom1 <= bottom2) {
+    if (top2 <= bottom1 && bottom1 <= bottom2) {
+        data->contacts[data->length].contactPoint[0] = MAX(left1, left2);
+        data->contacts[data->length].contactPoint[1] = top2;
+
+        data->contacts[data->length].contactNormal[0] = 0;
+        data->contacts[data->length].contactNormal[1] = -1;
+
+        data->contacts[data->length].penetration = bottom1 - top2 + 1;
+
+        data->contacts[data->length].firstBody = rect1->body;
+        data->contacts[data->length].secondBody = rect2->body;
+
+        ++data->length;
+    }
+
+    return data->length - initialDataLength;
 }
 
 uint8_t collisionRectangleAndHalfPlane(
@@ -64,6 +176,12 @@ uint8_t collisionRectangleAndHalfPlane(
     if (!intersectionTestRectangleAndHalfPlane(rect, line)) {
         return 0;
     }
+
+    // // horizontal line
+    // if (line->normal[0] == 0) {
+    // }
+    // // vertical line
+    // else {}
 
     int16_t vertices[4][2] = {
         { rect->body->position[0], rect->body->position[1] },
